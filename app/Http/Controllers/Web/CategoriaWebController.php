@@ -23,9 +23,9 @@ class CategoriaWebController extends Controller
     {
         $data = $request->validate([
             'nombre' => ['required','string','max:255'],
-            'estado' => ['nullable','boolean'],
         ]);
 
+        // checkbox -> boolean real
         $data['estado'] = $request->has('estado');
 
         Categoria::create($data);
@@ -42,9 +42,9 @@ class CategoriaWebController extends Controller
     {
         $data = $request->validate([
             'nombre' => ['required','string','max:255'],
-            'estado' => ['nullable','boolean'],
         ]);
 
+        // checkbox -> boolean real
         $data['estado'] = $request->has('estado');
 
         $categoria->update($data);

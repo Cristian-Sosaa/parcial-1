@@ -7,13 +7,14 @@
 
 <div class="card">
   <div class="card-body">
-    <form method="POST" action="{{ route('marcas.update', $marca) }}">
+    <form method="POST" action="{{ route('marcas.update', $marca->id) }}">
       @csrf
       @method('PUT')
 
       <div class="mb-3">
         <label class="form-label">Nombre</label>
-        <input class="form-control" name="nombre" value="{{ old('nombre', $marca->nombre) }}" required>
+        <input class="form-control" name="nombre"
+               value="{{ old('nombre', $marca->nombre) }}" required>
       </div>
 
       <div class="form-check mb-3">
