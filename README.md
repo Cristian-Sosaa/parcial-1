@@ -17,7 +17,7 @@ CRUD con interfaz web usando Blade y Bootstrap
 
 Validaciones y manejo de errores
 
-Requisitos del Sistema
+REQUISITOS DEL SISTEMA
 
 PHP 8.2 o superior
 
@@ -29,7 +29,7 @@ Laravel 12
 
 Navegador web
 
-Base de Datos
+BASE DE DATOS
 Crear la base de datos en MySQL:
 
 CREATE DATABASE inventario CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -43,8 +43,7 @@ DB_DATABASE=inventario
 DB_USERNAME=root
 DB_PASSWORD=
 
-Tablas del Sistema
-Se crearon las siguientes tablas:
+TABLAS DEL SISTEMA
 
 marcas
 
@@ -57,94 +56,102 @@ productos
 Relaciones:
 Un producto pertenece a una categoría, una marca y un proveedor.
 
-Migraciones
-Ejecutar el siguiente comando:
+MIGRACIONES
+Ejecutar:
 
 php artisan migrate
 
-Seeders
-Se crearon seeders para las tablas de catálogo:
-
-Marcas
-
-Categorías
-
-Proveedores
-
+SEEDERS
 Ejecutar:
 
 php artisan db:seed
 
-API REST
-Endpoints disponibles:
+EJECUCIÓN DEL PROYECTO
 
-GET /api/marcas → Listar
-POST /api/marcas → Crear
-PUT /api/marcas/{id} → Actualizar
-DELETE /api/marcas/{id} → Eliminar
-
-Lo mismo aplica para:
-
-/api/categorias
-
-/api/proveedores
-
-Ver todas las rutas:
-php artisan route:list
-
-Interfaz Web (CRUD)
-
-Rutas disponibles:
-
-/marcas → Listar marcas
-/marcas/create → Crear marca
-/marcas/{id}/edit → Editar marca
-
-/categorias → CRUD categorías
-/proveedores → CRUD proveedores
-
-Tecnologías usadas:
-
-Blade
-
-Bootstrap 5
-
-Controladores Laravel
-
-Validaciones Implementadas
-
-Validación principal:
-'nombre' => required | string | max:255
-
-Conversión correcta del checkbox:
-$data['estado'] = $request->has('estado');
-
-Ejecución del Proyecto
-
-Instalar dependencias:
+Instalar dependencias
 composer install
 
-Configurar archivo .env
-
-Ejecutar migraciones:
+Ejecutar migraciones
 php artisan migrate
 
-Ejecutar seeders:
+Ejecutar seeders
 php artisan db:seed
 
-Iniciar servidor:
+Iniciar servidor
 php artisan serve
 
 Abrir en el navegador:
 http://127.0.0.1:8000
 
-Funcionalidades Implementadas
+RUTAS WEB DEL SISTEMA (INTERFAZ)
+
+Página principal:
+http://127.0.0.1:8000/
+
+CRUD Marcas:
+http://127.0.0.1:8000/marcas
+
+http://127.0.0.1:8000/marcas/create
+
+http://127.0.0.1:8000/marcas/{id}/edit
+
+CRUD Categorías:
+http://127.0.0.1:8000/categorias
+
+http://127.0.0.1:8000/categorias/create
+
+http://127.0.0.1:8000/categorias/{id}/edit
+
+CRUD Proveedores:
+http://127.0.0.1:8000/proveedores
+
+http://127.0.0.1:8000/proveedores/create
+
+http://127.0.0.1:8000/proveedores/{id}/edit
+
+RUTAS API REST
+
+Marcas:
+GET http://127.0.0.1:8000/api/marcas
+
+POST http://127.0.0.1:8000/api/marcas
+
+PUT http://127.0.0.1:8000/api/marcas/{id}
+
+DELETE http://127.0.0.1:8000/api/marcas/{id}
+
+Categorías:
+GET http://127.0.0.1:8000/api/categorias
+
+POST http://127.0.0.1:8000/api/categorias
+
+PUT http://127.0.0.1:8000/api/categorias/{id}
+
+DELETE http://127.0.0.1:8000/api/categorias/{id}
+
+Proveedores:
+GET http://127.0.0.1:8000/api/proveedores
+
+POST http://127.0.0.1:8000/api/proveedores
+
+PUT http://127.0.0.1:8000/api/proveedores/{id}
+
+DELETE http://127.0.0.1:8000/api/proveedores/{id}
+
+VALIDACIONES IMPLEMENTADAS
+
+nombre → required | string | max:255
+
+Conversión del checkbox:
+$data['estado'] = $request->has('estado');
+
+FUNCIONALIDADES IMPLEMENTADAS
 
 Crear registros
 Editar registros
 Eliminar registros
 Listar registros
-Validaciones de formularios
+Validaciones
 Manejo de errores
 API REST funcional
 Interfaz Web completa
