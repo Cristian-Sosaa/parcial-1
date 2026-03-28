@@ -3,49 +3,56 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\StoreMarcaRequest;
-use App\Http\Requests\UpdateMarcaRequest;
 use App\Models\Marca;
-use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 
 class MarcaController extends Controller
 {
-    public function index(): JsonResponse
+    public function index()
     {
-        return response()->json(Marca::orderByDesc('id')->get());
+        $marcas = Marca::all();
+        return response()->json($marcas);
     }
 
-    public function store(StoreMarcaRequest $request): JsonResponse
+    public function store(Request $request)
     {
-        try {
-            $marca = Marca::create([
-                'nombre' => $request->nombre,
-                'estado' => $request->input('estado', true),
-            ]);
+        $request->validate([
+            'nombre' => 'required|string|max:255',
+        ]);
 
-            return response()->json($marca, 201);
-        } catch (\Throwable $e) {
-            return response()->json(['message' => 'Error al crear marca'], 500);
-        }
+        $marca = Marca::create([
+            'nombre' => $request->nombre,
+            'estado' => $request->has('estado') ? $request->estado : true,
+        ]);
+
+        return response()->json($marca, 201);
     }
 
-    public function update(UpdateMarcaRequest $request, Marca $marca): JsonResponse
+    public function show($id)
     {
-        try {
-            $marca->update($request->validated());
-            return response()->json($marca);
-        } catch (\Throwable $e) {
-            return response()->json(['message' => 'Error al actualizar marca'], 500);
-        }
+        $marca = Marca::findOrFail($id);
+        return response()->json($marca);
     }
 
-    public function destroy(Marca $marca): JsonResponse
+    public function update(Request $request, $id)
     {
-        try {
-            $marca->delete();
-            return response()->json(['message' => 'Marca eliminada']);
-        } catch (\Throwable $e) {
-            return response()->json(['message' => 'Error al eliminar marca'], 500);
-        }
+        $request->validate([
+            'nombre' => 'required|string|max:255',
+        ]);
+
+        $marca = Marca::findOrFail($id);
+        $marca->update([
+            'nombre' => $request->nombre,
+            'estado' => $request->has('estado') ? $request->estado : $marca->estado,
+        ]);
+
+        return response()->json($marca);
+    }
+
+    public function destroy($id)
+    {
+        $marca = Marca::findOrFail($id);
+        $marca->delete(); // Soft Delete
+        return response()->json(['message' => 'Marca eliminada correctamente']);
     }
 }

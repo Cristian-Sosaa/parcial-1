@@ -2,11 +2,9 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\MarcaController;
-use App\Http\Controllers\Api\CategoriaController;
 use App\Http\Controllers\Api\ProveedorController;
+use App\Http\Controllers\Api\ProductoController;
 
-Route::name('api.')->group(function () {
-    Route::apiResource('marcas', MarcaController::class)->only(['index','store','update','destroy']);
-    Route::apiResource('categorias', CategoriaController::class)->only(['index','store','update','destroy']);
-    Route::apiResource('proveedores', ProveedorController::class)->only(['index','store','update','destroy']);
-});
+Route::apiResource('marcas', MarcaController::class);
+Route::apiResource('proveedores', ProveedorController::class);
+Route::apiResource('productos', ProductoController::class);

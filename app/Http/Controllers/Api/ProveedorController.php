@@ -3,50 +3,56 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\StoreProveedorRequest;
-use App\Http\Requests\UpdateProveedorRequest;
 use App\Models\Proveedor;
-use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 
 class ProveedorController extends Controller
 {
-    public function index(): JsonResponse
+    public function index()
     {
-        return response()->json(Proveedor::orderByDesc('id')->get());
+        $proveedores = Proveedor::all();
+        return response()->json($proveedores);
     }
 
-    public function store(StoreProveedorRequest $request): JsonResponse
+    public function store(Request $request)
     {
-        try {
-            $proveedor = Proveedor::create([
-                'nombre' => $request->nombre,
-                'telefono' => $request->input('telefono'),
-                'estado' => $request->input('estado', true),
-            ]);
+        $request->validate([
+            'nombre' => 'required|string|max:255',
+        ]);
 
-            return response()->json($proveedor, 201);
-        } catch (\Throwable $e) {
-            return response()->json(['message' => 'Error al crear proveedor'], 500);
-        }
+        $proveedor = Proveedor::create([
+            'nombre' => $request->nombre,
+            'estado' => $request->has('estado') ? $request->estado : true,
+        ]);
+
+        return response()->json($proveedor, 201);
     }
 
-    public function update(UpdateProveedorRequest $request, Proveedor $proveedor): JsonResponse
+    public function show($id)
     {
-        try {
-            $proveedor->update($request->validated());
-            return response()->json($proveedor);
-        } catch (\Throwable $e) {
-            return response()->json(['message' => 'Error al actualizar proveedor'], 500);
-        }
+        $proveedor = Proveedor::findOrFail($id);
+        return response()->json($proveedor);
     }
 
-    public function destroy(Proveedor $proveedor): JsonResponse
+    public function update(Request $request, $id)
     {
-        try {
-            $proveedor->delete();
-            return response()->json(['message' => 'Proveedor eliminado']);
-        } catch (\Throwable $e) {
-            return response()->json(['message' => 'Error al eliminar proveedor'], 500);
-        }
+        $request->validate([
+            'nombre' => 'required|string|max:255',
+        ]);
+
+        $proveedor = Proveedor::findOrFail($id);
+        $proveedor->update([
+            'nombre' => $request->nombre,
+            'estado' => $request->has('estado') ? $request->estado : $proveedor->estado,
+        ]);
+
+        return response()->json($proveedor);
+    }
+
+    public function destroy($id)
+    {
+        $proveedor = Proveedor::findOrFail($id);
+        $proveedor->delete(); // Soft Delete
+        return response()->json(['message' => 'Proveedor eliminado correctamente']);
     }
 }
